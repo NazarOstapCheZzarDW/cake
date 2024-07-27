@@ -1,0 +1,26 @@
+services:
+  dily:
+    image: webdevops/php-nginx:8.3
+    container_name: dily
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/webroot
+    env_file:
+      - .env
+    ports:
+      - "80:80"
+
+  mysql:
+    image: mysql:8.4
+    container_name: mysql
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./tmp/data/mysql_db:/var/lib/mysql
+    env_file:
+      - .env
+    command: mysqld --mysql-native-password=ON  --character-set-server=utf8 --init-connect='SET NAMES UTF8;'
+    ports:
+      - "3306:3306"
